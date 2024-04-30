@@ -47,6 +47,10 @@ button:disabled {
     margin-top: 5px;
 }
 
+.error-border {
+    border: 1px solid #ff3131 !important;
+}
+
 .btn-delete {
     padding: 8px 12px;
     background-color: #dc6f35;
