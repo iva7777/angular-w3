@@ -12,16 +12,24 @@ import { CommonModule } from '@angular/common';
   styleUrl: './note.component.css'
 })
 export class NoteComponent implements OnInit {
-  newNote: Note = {id: 0, title: '', content: ''};
+  formNote: Note = {id: 0, title: '', content: ''};
+  selectedNoteId: number = 0;
   notes: Note[] = [];
-  selectedNote: Note | null = null;
 
-  constructor(private noteService: NoteService) { }
+  constructor(private noteService: NoteService) {
+    this.notes = this.noteService.getNotes();
+  }
 
-  addNote(){
-    this.newNote.id = this.notes.length + 1;
-    this.notes.push({ ... this.newNote });
-    this.newNote = {id: 0, title: '', content: ''};
+  saveNote(){
+    if (this.formNote.id <= 0) {
+      this.formNote.id = this.notes.length + 1;
+      this.noteService.addNotes({... this.formNote});
+    } else {
+      this.noteService.editNote({... this.formNote});
+      this.selectedNoteId = -1;
+    }
+    
+    this.formNote = {id: 0, title: '', content: ''};
   }
 
   ngOnInit(): void {
@@ -29,24 +37,22 @@ export class NoteComponent implements OnInit {
   }
 
   validateForm(): boolean {
-    return this.newNote.title.trim().length >= 5 && this.newNote.content.trim().length >= 7;
+    return this.formNote.title.trim().length >= 5 && this.formNote.content.trim().length >= 7;
   }
   
   onSelect(note: Note) {
-    this.selectedNote = note;
+    this.selectedNoteId = note.id;
   }
 
-  editNote(){
-    if (this.selectedNote) {
-      this.noteService.editNote(this.selectedNote);
-      this.selectedNote = null;
-    }
+  onEditClicked(note: Note) {
+    this.formNote = {
+      id: note.id,
+      title: note.title,
+      content: note.content
+    };
   }
 
-  deleteNote() {
-    if (this.selectedNote) {
-      this.noteService.deleteNote(this.selectedNote.id);
-      this.selectedNote = null;
-    }
+  deleteNote(note: Note) {
+    this.noteService.deleteNote(note.id);
   }
 }

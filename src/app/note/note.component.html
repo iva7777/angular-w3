@@ -1,13 +1,13 @@
-<form (ngSubmit)="addNote()" #noteForm="ngForm">
+<form (ngSubmit)="saveNote()" #noteForm="ngForm">
     <label for="title">Title:</label>
-    <input type="text" id="title" name="title" required minlength="5" [(ngModel)]="newNote.title" #title="ngModel" class="form-control">
+    <input type="text" id="title" name="title" required minlength="5" [(ngModel)]="formNote.title" #title="ngModel" class="form-control">
     <div *ngIf="title.invalid && (title.dirty || title.touched)" class="error-message">
         <div *ngIf="title.errors?.['required']">Title is required.</div>
         <div *ngIf="title.errors?.['minlength']">Title must be at least 5 characters.</div>
     </div>
 
     <label for="content">Content:</label>
-    <textarea id="content" name="content" required minlength="7" [(ngModel)]="newNote.content" #content="ngModel" class="form-control"></textarea>
+    <textarea id="content" name="content" required minlength="7" [(ngModel)]="formNote.content" #content="ngModel" class="form-control"></textarea>
     <div *ngIf="content.invalid && (content.dirty || content.touched)" class="error-message">
         <div *ngIf="content.errors?.['required']">Content is required.</div>
         <div *ngIf="content.errors?.['minlength']">Content must be at least 7 characters.</div>
@@ -22,18 +22,6 @@
         <strong>{{note.title}}</strong>
         <p>{{note.content}}</p>
     </div>
-    <button *ngIf="selectedNote && selectedNote.id === note.id" (click)="deleteNote()" class="btn btn-delete">Delete</button>
-</div>
-
-<hr *ngIf="selectedNote">
-
-<div *ngIf="selectedNote">
-    <h2>Edit Note: </h2>
-    <form (ngSubmit)="editNote()">
-        <label for="editTitle">Title: </label>
-        <input type="text" id="editTitle" name="editTitle" required minlength="5" [(ngModel)]="selectedNote.title">
-        <label for="editContent">Content: </label>
-        <textarea id="editContent" name="editContent" required minlength="7" [(ngModel)]="selectedNote.content"></textarea>
-        <button>Save Edited Note</button>
-    </form>
+    <button *ngIf="selectedNoteId === note.id" (click)="onEditClicked(note)" class="btn btn-edit">Edit</button>
+    <button *ngIf="selectedNoteId === note.id" (click)="deleteNote(note)" class="btn btn-delete">Delete</button>
 </div>

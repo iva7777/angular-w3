@@ -25,6 +25,7 @@ export class NoteService {
   }
 
   deleteNote(id: number): void {
-    this.notes = this.notes.filter(note => note.id !== id);
+    const index = this.notes.findIndex(note => note.id === id);
+    this.notes.splice(index, 1);
   }
 }

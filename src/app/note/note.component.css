@@ -59,3 +59,17 @@ button:disabled {
 .btn-delete:hover {
     background-color: #af2e1d;
 }
+
+.btn-edit {
+    padding: 8px 12px;
+    margin: 5px;
+    background-color: #18ae29;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-edit:hover {
+    background-color: #128620;
+}
