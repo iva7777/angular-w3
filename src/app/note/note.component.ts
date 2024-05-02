@@ -16,6 +16,8 @@ export class NoteComponent implements OnInit {
   selectedNoteId: number = 0;
   notes: Note[] = [];
 
+  isFormSubmitted = false;
+
   constructor(private noteService: NoteService) {
     this.notes = this.noteService.getNotes();
   }
@@ -28,16 +30,12 @@ export class NoteComponent implements OnInit {
       this.noteService.editNote({... this.formNote});
       this.selectedNoteId = -1;
     }
-    
     this.formNote = {id: 0, title: '', content: ''};
+    this.isFormSubmitted = true;
   }
 
   ngOnInit(): void {
     this.notes = this.noteService.getNotes();
-  }
-
-  validateForm(): boolean {
-    return this.formNote.title.trim().length >= 5 && this.formNote.content.trim().length >= 7;
   }
   
   onSelect(note: Note) {
